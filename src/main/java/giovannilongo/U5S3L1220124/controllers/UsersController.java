@@ -1,16 +1,11 @@
 package giovannilongo.U5S3L1220124.controllers;
 
 import giovannilongo.U5S3L1220124.entities.User;
-import giovannilongo.U5S3L1220124.exceptions.BadRequestException;
-import giovannilongo.U5S3L1220124.payloads.NewUserDTO;
-import giovannilongo.U5S3L1220124.payloads.NewUserResponseDTO;
 import giovannilongo.U5S3L1220124.services.DevicesService;
 import giovannilongo.U5S3L1220124.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,15 +19,15 @@ public class UsersController {
     @Autowired
     DevicesService devicesService;
 
-    @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
-    public NewUserResponseDTO saveUser(@RequestBody @Validated NewUserDTO body, BindingResult validation) throws Exception {
-        if (validation.hasErrors()) {
-            throw new BadRequestException(validation.getAllErrors());
-        }
-        User newUser = usersService.save(body);
-        return new NewUserResponseDTO(newUser.getId());
-    }
+//    @PostMapping("")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public NewUserResponseDTO saveUser(@RequestBody @Validated NewUserDTO body, BindingResult validation) throws Exception {
+//        if (validation.hasErrors()) {
+//            throw new BadRequestException(validation.getAllErrors());
+//        }
+//        User newUser = usersService.save(body);
+//        return new NewUserResponseDTO(newUser.getId());
+//    }
 
     @GetMapping("")
     public Page<User> getUsers(@RequestParam(defaultValue = "0") int page,
