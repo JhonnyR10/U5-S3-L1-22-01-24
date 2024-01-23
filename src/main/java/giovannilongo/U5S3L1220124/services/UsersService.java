@@ -33,6 +33,7 @@ public class UsersService {
         newUser.setAvatar("https://ui-avatars.com/api/?name=" + body.firstName() + "+" + body.lastName());
         newUser.setFirstName(body.firstName());
         newUser.setEmail(body.email());
+        newUser.setPassword(body.password());
         newUser.setLastName(body.lastName());
 
         return usersRepository.save(newUser);
@@ -71,5 +72,7 @@ public class UsersService {
         return usersRepository.save(found);
     }
 
-
+    public User findByEmail(String email) throws NotFoundException {
+        return usersRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovata!"));
+    }
 }

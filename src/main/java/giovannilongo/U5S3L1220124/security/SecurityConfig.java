@@ -31,7 +31,7 @@ public class SecurityConfig extends OncePerRequestFilter {
         // doFilterInternal è il metodo di questo filtro che verrà eseguito per ogni richiesta che richieda di essere autenticati, e dovrà:
 
         // 1. Verifichiamo se la richiesta contiene un Authorization Header ed eventualmente estraiamo il token da esso
-        String authHeader = request.getHeader("Authorization"); // "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjOTY0YjQwYy1iMzliLTQ4NzYtYTBkYi1jNDA4Yjc5ZDlhNDUiLCJpYXQiOjE3MDU5MjIyMjYsImV4cCI6MTcwNjUyNzAyNn0.stxc0Bko-lN8ej_Yp8hpjLTQmmlnzqJChrDQ7XkAR0Q"
+        String authHeader = request.getHeader("Authorization "); // "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjOTY0YjQwYy1iMzliLTQ4NzYtYTBkYi1jNDA4Yjc5ZDlhNDUiLCJpYXQiOjE3MDU5MjIyMjYsImV4cCI6MTcwNjUyNzAyNn0.stxc0Bko-lN8ej_Yp8hpjLTQmmlnzqJChrDQ7XkAR0Q"
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new UnauthorizedException("Per favore metti il token nell'Authorization header");
         } else {

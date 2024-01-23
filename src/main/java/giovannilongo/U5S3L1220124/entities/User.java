@@ -22,6 +22,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private String avatar;
     @OneToMany(mappedBy = "user")
     @JsonIgnore
@@ -38,12 +39,12 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
+                "username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", avatar='" + avatar + '\'' +
                 '}';
     }
-
 }
