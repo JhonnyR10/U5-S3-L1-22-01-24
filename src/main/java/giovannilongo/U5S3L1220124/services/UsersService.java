@@ -3,9 +3,7 @@ package giovannilongo.U5S3L1220124.services;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import giovannilongo.U5S3L1220124.entities.User;
-import giovannilongo.U5S3L1220124.exceptions.BadRequestException;
 import giovannilongo.U5S3L1220124.exceptions.NotFoundException;
-import giovannilongo.U5S3L1220124.payloads.NewUserDTO;
 import giovannilongo.U5S3L1220124.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,20 +22,20 @@ public class UsersService {
     @Autowired
     private Cloudinary cloudinaryUploader;
 
-    public User save(NewUserDTO body) throws IOException {
-        usersRepository.findByEmail(body.email()).ifPresent(user -> {
-            throw new BadRequestException("L'email " + body.email() + " è già stata utilizzata");
-        });
-        User newUser = new User();
-        newUser.setUsername(body.username());
-        newUser.setAvatar("https://ui-avatars.com/api/?name=" + body.firstName() + "+" + body.lastName());
-        newUser.setFirstName(body.firstName());
-        newUser.setEmail(body.email());
-        newUser.setPassword(body.password());
-        newUser.setLastName(body.lastName());
-
-        return usersRepository.save(newUser);
-    }
+//    public User save(NewUserDTO body) throws IOException {
+//        usersRepository.findByEmail(body.email()).ifPresent(user -> {
+//            throw new BadRequestException("L'email " + body.email() + " è già stata utilizzata");
+//        });
+//        User newUser = new User();
+//        newUser.setUsername(body.username());
+//        newUser.setAvatar("https://ui-avatars.com/api/?name=" + body.firstName() + "+" + body.lastName());
+//        newUser.setFirstName(body.firstName());
+//        newUser.setEmail(body.email());
+//        newUser.setPassword(body.password());
+//        newUser.setLastName(body.lastName());
+//
+//        return usersRepository.save(newUser);
+//    }
 
     public Page<User> getUser(int page, int size, String sort) {
 

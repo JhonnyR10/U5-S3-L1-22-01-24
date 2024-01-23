@@ -3,6 +3,7 @@ package giovannilongo.U5S3L1220124.exceptions;
 import giovannilongo.U5S3L1220124.payloads.errors.ErrorsPayloadWithList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,6 +24,18 @@ public class ExceptionsHandler {
         if (e.getErrorsList() != null)
             errorsMessages = e.getErrorsList().stream().map(err -> err.getDefaultMessage()).toList();
         return new ErrorsPayloadWithList(e.getMessage(), new Date(), errorsMessages);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED) // 401
+    public ErrorsPayload handleUnauthorized(UnauthorizedException ex) {
+        return new ErrorsPayload(ex.getMessage(), LocalDateTime.now());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN) // 403
+    public ErrorsPayload handleAccessDenied(AccessDeniedException ex) {
+        return new ErrorsPayload("Il tuo ruolo non permette di accedere a questa funzionalità!", LocalDateTime.now());
     }
 
     @ExceptionHandler(NotFoundException.class)

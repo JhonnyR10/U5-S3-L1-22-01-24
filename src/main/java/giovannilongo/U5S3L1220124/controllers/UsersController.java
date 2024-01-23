@@ -6,6 +6,8 @@ import giovannilongo.U5S3L1220124.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,14 +42,17 @@ public class UsersController {
         return usersService.findById(userId);
     }
 
+
     @PutMapping("/{userId}")
-    public User findAndUpdate(@PathVariable long userId, @RequestBody User body) {
-        return usersService.findByIdAndUpdate(userId, body);
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public User getUserByIdAndUpdate(@PathVariable Long userId, @RequestBody User modifiedUserPayload) {
+        return usersService.findByIdAndUpdate(userId, modifiedUserPayload);
     }
 
     @DeleteMapping("/{userId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void findAndDelete(@PathVariable long userId) {
+    public void getUserByIdAndDelete(@PathVariable Long userId) {
         usersService.findByIdAndDelete(userId);
     }
 
@@ -60,5 +65,23 @@ public class UsersController {
         }
     }
 
+    // /me endpoints
+    @GetMapping("/me")
+    public User getProfile(@AuthenticationPrincipal User currentUser) {
+        // @AuthenticationPrincipal permette di accedere ai dati dell'utente attualmente autenticato
+        // (perchè avevamo estratto l'id dal token e cercato l'utente nel db)
+        return currentUser;
+    }
+
+
+    @PutMapping("/me")
+    public User getMeAndUpdate(@AuthenticationPrincipal User currentUser, @RequestBody User body) {
+        return usersService.findByIdAndUpdate(currentUser.getId(), body);
+    }
+
+    @DeleteMapping("/me")
+    public void getMeAnDelete(@AuthenticationPrincipal User currentUser) {
+        usersService.findByIdAndDelete(currentUser.getId());
+    }
 
 }
